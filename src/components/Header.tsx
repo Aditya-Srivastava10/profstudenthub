@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Home, BookOpen } from 'lucide-react'
+import { Home, BookOpen, FileText } from 'lucide-react'
 
 const Header = () => {
   const { user, profile, signOut } = useAuth()
@@ -67,6 +67,15 @@ const Header = () => {
               >
                 <BookOpen className="w-4 h-4" />
                 <span>Subjects</span>
+              </Button>
+              <Button
+                variant={location.pathname === '/materials' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => navigate('/materials')}
+                className="flex items-center space-x-2"
+              >
+                <FileText className="w-4 h-4" />
+                <span>Materials</span>
               </Button>
             </nav>
           )}
