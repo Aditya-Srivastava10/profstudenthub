@@ -10,9 +10,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { Home, BookOpen } from 'lucide-react'
 
 const Header = () => {
   const { user, profile, signOut } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleSignOut = async () => {
     await signOut()
@@ -39,8 +43,33 @@ const Header = () => {
   return (
     <header className="border-b bg-card">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <h1 className="text-xl font-bold text-card-foreground">Academic Portal</h1>
+        <div className="flex items-center space-x-6">
+          <h1 className="text-xl font-bold text-card-foreground cursor-pointer" onClick={() => navigate('/')}>
+            Academic Portal
+          </h1>
+          
+          {user && (
+            <nav className="hidden md:flex items-center space-x-4">
+              <Button
+                variant={location.pathname === '/' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => navigate('/')}
+                className="flex items-center space-x-2"
+              >
+                <Home className="w-4 h-4" />
+                <span>Dashboard</span>
+              </Button>
+              <Button
+                variant={location.pathname === '/subjects' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => navigate('/subjects')}
+                className="flex items-center space-x-2"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Subjects</span>
+              </Button>
+            </nav>
+          )}
         </div>
 
         {user && (

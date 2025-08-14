@@ -70,7 +70,7 @@ const Index = () => {
                 <div className="p-6 bg-card rounded-lg border">
                   <h3 className="text-lg font-semibold mb-2 text-card-foreground">Subjects</h3>
                   <p className="text-muted-foreground mb-4">Organize content by subjects</p>
-                  <Button variant="outline" className="w-full">Manage Subjects</Button>
+                  <Button variant="outline" className="w-full" onClick={() => navigate('/subjects')}>Manage Subjects</Button>
                 </div>
               </>
             ) : (
@@ -78,7 +78,7 @@ const Index = () => {
                 <div className="p-6 bg-card rounded-lg border">
                   <h3 className="text-lg font-semibold mb-2 text-card-foreground">My Subjects</h3>
                   <p className="text-muted-foreground mb-4">View your enrolled subjects</p>
-                  <Button variant="outline" className="w-full">View Subjects</Button>
+                  <Button variant="outline" className="w-full" onClick={() => navigate('/subjects')}>View Subjects</Button>
                 </div>
                 <div className="p-6 bg-card rounded-lg border">
                   <h3 className="text-lg font-semibold mb-2 text-card-foreground">Study Materials</h3>

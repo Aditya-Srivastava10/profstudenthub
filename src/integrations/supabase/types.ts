@@ -7,13 +7,52 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
+      enrollments: {
+        Row: {
+          enrolled_at: string | null
+          id: string
+          is_active: boolean | null
+          student_id: string
+          subject_id: string
+        }
+        Insert: {
+          enrolled_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          student_id: string
+          subject_id: string
+        }
+        Update: {
+          enrolled_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          student_id?: string
+          subject_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enrollments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enrollments_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -46,6 +85,50 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      subjects: {
+        Row: {
+          code: string
+          created_at: string | null
+          description: string | null
+          fee_amount: number | null
+          id: string
+          is_active: boolean | null
+          name: string
+          professor_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          description?: string | null
+          fee_amount?: number | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          professor_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          fee_amount?: number | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          professor_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subjects_professor_id_fkey"
+            columns: ["professor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
