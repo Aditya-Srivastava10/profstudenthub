@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Home, BookOpen, FileText } from 'lucide-react'
+import { Home, BookOpen, FileText, Users, ClipboardList } from 'lucide-react'
 
 const Header = () => {
   const { user, profile, signOut } = useAuth()
@@ -76,6 +76,26 @@ const Header = () => {
               >
                 <FileText className="w-4 h-4" />
                 <span>Materials</span>
+              </Button>
+              {profile?.role === 'professor' && (
+                <Button
+                  variant={location.pathname === '/students' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => navigate('/students')}
+                  className="flex items-center space-x-2"
+                >
+                  <Users className="w-4 h-4" />
+                  <span>Students</span>
+                </Button>
+              )}
+              <Button
+                variant={location.pathname === '/assignments' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => navigate('/assignments')}
+                className="flex items-center space-x-2"
+              >
+                <ClipboardList className="w-4 h-4" />
+                <span>Assignments</span>
               </Button>
             </nav>
           )}
