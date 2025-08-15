@@ -1,8 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import Header from '@/components/Header'
+import { ProfessorDashboard } from '@/components/dashboard/ProfessorDashboard'
+import { StudentDashboard } from '@/components/dashboard/StudentDashboard'
 
 const Index = () => {
   const { user, profile, loading } = useAuth()
@@ -33,72 +37,23 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 text-foreground">
-            Welcome to Academic Portal
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2 text-foreground">
+            Welcome back, {profile?.first_name || 'User'}!
           </h1>
-          <p className="text-xl text-muted-foreground mb-6">
+          <p className="text-xl text-muted-foreground">
             {profile?.role === 'professor' 
-              ? 'Manage your students, assignments, and course materials'
-              : 'Access your course materials, assignments, and track your progress'
+              ? 'Here\'s an overview of your courses and student activities'
+              : 'Track your progress and stay up to date with your courses'
             }
           </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {profile?.role === 'professor' ? (
-              <>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">Student Management</h3>
-                  <p className="text-muted-foreground mb-4">Add, remove, and manage student enrollments</p>
-                  <Button variant="outline" className="w-full">Manage Students</Button>
-                </div>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">Study Materials</h3>
-                  <p className="text-muted-foreground mb-4">Upload and organize course materials</p>
-                  <Button variant="outline" className="w-full" onClick={() => navigate('/materials')}>Upload Materials</Button>
-                </div>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">Assignments</h3>
-                  <p className="text-muted-foreground mb-4">Create assignments and grade submissions</p>
-                  <Button variant="outline" className="w-full">Manage Assignments</Button>
-                </div>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">Fee Management</h3>
-                  <p className="text-muted-foreground mb-4">Track payments and generate invoices</p>
-                  <Button variant="outline" className="w-full">Manage Fees</Button>
-                </div>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">Subjects</h3>
-                  <p className="text-muted-foreground mb-4">Organize content by subjects</p>
-                  <Button variant="outline" className="w-full" onClick={() => navigate('/subjects')}>Manage Subjects</Button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">My Subjects</h3>
-                  <p className="text-muted-foreground mb-4">View your enrolled subjects</p>
-                  <Button variant="outline" className="w-full" onClick={() => navigate('/subjects')}>View Subjects</Button>
-                </div>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">Study Materials</h3>
-                  <p className="text-muted-foreground mb-4">Access course materials and resources</p>
-                  <Button variant="outline" className="w-full" onClick={() => navigate('/materials')}>View Materials</Button>
-                </div>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">Assignments</h3>
-                  <p className="text-muted-foreground mb-4">View assignments and submit work</p>
-                  <Button variant="outline" className="w-full">View Assignments</Button>
-                </div>
-                <div className="p-6 bg-card rounded-lg border">
-                  <h3 className="text-lg font-semibold mb-2 text-card-foreground">My Fees</h3>
-                  <p className="text-muted-foreground mb-4">Check payment status and history</p>
-                  <Button variant="outline" className="w-full">View Fees</Button>
-                </div>
-              </>
-            )}
-          </div>
         </div>
+
+        {profile?.role === 'professor' ? (
+          <ProfessorDashboard />
+        ) : (
+          <StudentDashboard />
+        )}
       </main>
     </div>
   )
