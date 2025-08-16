@@ -22,7 +22,7 @@ const signUpSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
-  role: z.enum(['professor', 'student'], { required_error: 'Please select a role' })
+  role: z.literal('student')
 })
 
 const Auth = () => {
@@ -212,27 +212,7 @@ const Auth = () => {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={signUpForm.control}
-                      name="role"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Role</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select your role" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="student">Student</SelectItem>
-                              <SelectItem value="professor">Professor</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <input type="hidden" {...signUpForm.register('role')} value="student" />
                     <Button type="submit" className="w-full" disabled={isLoading}>
                       {isLoading ? 'Creating account...' : 'Sign Up'}
                     </Button>
