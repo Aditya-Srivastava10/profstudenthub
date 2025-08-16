@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Home, BookOpen, FileText, Users, ClipboardList, GraduationCap } from 'lucide-react'
+import { Home, BookOpen, FileText, Users, ClipboardList, GraduationCap, User, LogOut } from 'lucide-react'
 
 const Header = () => {
   const { user, profile, signOut } = useAuth()
@@ -148,7 +148,13 @@ const Header = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
+                  <LogOut className="mr-2 h-4 w-4" />
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
