@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
+import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -28,7 +30,9 @@ const signUpSchema = z.object({
 const Auth = () => {
   const navigate = useNavigate()
   const { signIn, signUp, user, loading } = useAuth()
+  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
 
   const signInForm = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -76,15 +80,33 @@ const Auth = () => {
   }
 
   const onSignUp = async (values: z.infer<typeof signUpSchema>) => {
+    if (!captchaToken) {
+      toast({
+        title: "Verification required",
+        description: "Please complete the captcha verification",
+        variant: "destructive"
+      })
+      return
+    }
+
     setIsLoading(true)
-    const { error } = await signUp(
-      values.email,
-      values.password,
-      values.firstName,
-      values.lastName,
-      values.role
-    )
-    setIsLoading(false)
+    try {
+      const { error } = await signUp(
+        values.email,
+        values.password,
+        values.firstName,
+        values.lastName,
+        values.role
+      )
+      
+      if (!error) {
+        setCaptchaToken(null) // Reset captcha
+      }
+    } catch (error) {
+      console.error('Sign up error:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -213,7 +235,17 @@ const Auth = () => {
                       )}
                     />
                     <input type="hidden" {...signUpForm.register('role')} value="student" />
-                    <Button type="submit" className="w-full" disabled={isLoading}>
+                    
+                    <div className="flex justify-center">
+                      <HCaptcha
+                        sitekey="10000000-ffff-ffff-ffff-000000000001" // Test site key
+                        onVerify={(token) => setCaptchaToken(token)}
+                        onExpire={() => setCaptchaToken(null)}
+                        onError={() => setCaptchaToken(null)}
+                      />
+                    </div>
+                    
+                    <Button type="submit" className="w-full" disabled={isLoading || !captchaToken}>
                       {isLoading ? 'Creating account...' : 'Sign Up'}
                     </Button>
                   </form>
