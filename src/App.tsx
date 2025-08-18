@@ -9,7 +9,6 @@ import Auth from "./pages/Auth";
 import Subjects from "./pages/Subjects";
 import Materials from "./pages/Materials";
 import Students from "./pages/Students";
-import Payments from "./pages/Payments";
 import Assignments from "./pages/Assignments";
 import Grading from "./pages/Grading";
 import Profile from "./pages/Profile";
@@ -30,7 +29,6 @@ const App = () => (
             <Route path="/subjects" element={<Subjects />} />
             <Route path="/materials" element={<Materials />} />
             <Route path="/students" element={<Students />} />
-            <Route path="/payments" element={<Payments />} />
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/grading" element={<Grading />} />
             <Route path="/profile" element={<Profile />} />
