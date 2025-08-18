@@ -143,91 +143,6 @@ export type Database = {
           },
         ]
       }
-      payment_reminders: {
-        Row: {
-          created_at: string
-          days_before: number
-          due_id: string
-          id: string
-          reminder_type: string
-          sent_at: string | null
-          student_id: string
-        }
-        Insert: {
-          created_at?: string
-          days_before: number
-          due_id: string
-          id?: string
-          reminder_type: string
-          sent_at?: string | null
-          student_id: string
-        }
-        Update: {
-          created_at?: string
-          days_before?: number
-          due_id?: string
-          id?: string
-          reminder_type?: string
-          sent_at?: string | null
-          student_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_reminders_due"
-            columns: ["due_id"]
-            isOneToOne: false
-            referencedRelation: "student_dues"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      payments: {
-        Row: {
-          amount: number
-          created_at: string
-          due_id: string
-          id: string
-          paid_at: string
-          payment_gateway_id: string | null
-          payment_method: Database["public"]["Enums"]["payment_method"]
-          payment_reference: string | null
-          receipt_url: string | null
-          student_id: string
-        }
-        Insert: {
-          amount: number
-          created_at?: string
-          due_id: string
-          id?: string
-          paid_at?: string
-          payment_gateway_id?: string | null
-          payment_method: Database["public"]["Enums"]["payment_method"]
-          payment_reference?: string | null
-          receipt_url?: string | null
-          student_id: string
-        }
-        Update: {
-          amount?: number
-          created_at?: string
-          due_id?: string
-          id?: string
-          paid_at?: string
-          payment_gateway_id?: string | null
-          payment_method?: Database["public"]["Enums"]["payment_method"]
-          payment_reference?: string | null
-          receipt_url?: string | null
-          student_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_payments_due"
-            columns: ["due_id"]
-            isOneToOne: false
-            referencedRelation: "student_dues"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -260,53 +175,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
-      }
-      student_dues: {
-        Row: {
-          amount: number
-          created_at: string
-          description: string
-          due_date: string
-          id: string
-          late_fee_percentage: number | null
-          status: Database["public"]["Enums"]["payment_status"]
-          student_id: string
-          subject_id: string | null
-          updated_at: string
-        }
-        Insert: {
-          amount: number
-          created_at?: string
-          description: string
-          due_date: string
-          id?: string
-          late_fee_percentage?: number | null
-          status?: Database["public"]["Enums"]["payment_status"]
-          student_id: string
-          subject_id?: string | null
-          updated_at?: string
-        }
-        Update: {
-          amount?: number
-          created_at?: string
-          description?: string
-          due_date?: string
-          id?: string
-          late_fee_percentage?: number | null
-          status?: Database["public"]["Enums"]["payment_status"]
-          student_id?: string
-          subject_id?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_student_dues_subject"
-            columns: ["subject_id"]
-            isOneToOne: false
-            referencedRelation: "subjects"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       study_materials: {
         Row: {
@@ -405,22 +273,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      calculate_late_fee: {
-        Args: {
-          due_amount: number
-          due_date: string
-          late_fee_percentage: number
-        }
-        Returns: number
-      }
-      mark_overdue_payments: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
-      payment_method: "card" | "upi" | "bank_transfer" | "cash"
-      payment_status: "pending" | "paid" | "overdue" | "failed"
       user_role: "professor" | "student"
     }
     CompositeTypes: {
@@ -549,8 +404,6 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      payment_method: ["card", "upi", "bank_transfer", "cash"],
-      payment_status: ["pending", "paid", "overdue", "failed"],
       user_role: ["professor", "student"],
     },
   },
