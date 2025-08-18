@@ -21,8 +21,8 @@ interface StudentDueWithProfile {
   late_fee_percentage: number
   student_id: string
   subject_id?: string
-  profiles: { first_name: string; last_name: string; email: string } | null
-  subjects?: { name: string }
+  profiles: { first_name: string; last_name: string; email: string } | null | any
+  subjects?: { name: string } | null
   payments: { amount: number; paid_at: string; payment_method: string }[]
 }
 
